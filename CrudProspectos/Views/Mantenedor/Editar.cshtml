@@ -1,0 +1,68 @@
+﻿@model ProspectosModel
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Editar Prospecto
+    </div>
+    <div class="card-body">
+
+        <form asp-action="Editar" asp-controller="Mantenedor" method="post">
+
+            <input asp-for="IdProspecto" type="hidden" class="form-control" />
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del Prospecto</label>
+                <input asp-for="nombredelProspecto" type="text" class="form-control" />
+                <span asp-validation-for="nombredelProspecto" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Primer Apellido</label>
+                <input asp-for="primerApellido" type="text" class="form-control" />
+                <span asp-validation-for="primerApellido" class="text-danger"></span>
+                <div class="mb-3">
+                    <label class="form-label">Segundo Apellido</label>
+                    <input asp-for="segundoApellido" type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Calle</label>
+                    <input asp-for="calle" type="text" class="form-control" />
+                    <span asp-validation-for="calle" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Numero</label>
+                    <input asp-for="numero" type="text" class="form-control" />
+                    <span asp-validation-for="numero" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Colonia</label>
+                    <input asp-for="colonia" type="text" class="form-control" />
+                    <span asp-validation-for="colonia" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Codigo Postal</label>
+                    <input asp-for="codigoPostal" type="text" class="form-control" />
+                    <span asp-validation-for="codigoPostal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Telefono</label>
+                    <input asp-for="telefono" type="text" class="form-control" />
+                    <span asp-validation-for="telefono" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">RFC</label>
+                    <input asp-for="rfc" type="text" class="form-control" />
+                    <span asp-validation-for="rfc" class="text-danger"></span>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Listar" asp-controller="Mantenedor" class="btn btn-warning">Volver a la lista</a>
+        </form>
+
+    </div>
+</div>
+
