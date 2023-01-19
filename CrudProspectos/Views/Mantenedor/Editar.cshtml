@@ -9,7 +9,18 @@
         Editar Prospecto
     </div>
     <div class="card-body">
-
+        <div>
+            <form asp-action="Subir_Archivo" asp-controller="Mantenedor" method="post" enctype="multipart/form-data">
+                
+                <input asp-for="IdProspecto" type="hidden" class="form-control" />
+                <label>documento:</label>
+                <input name="documento" type="file" />
+                <button class="btn btn-success" type="submit">Enviar</button>
+            </form>
+        </div>
+        <div>
+            </br>
+        </div>
         <form asp-action="Editar" asp-controller="Mantenedor" method="post">
 
             <input asp-for="IdProspecto" type="hidden" class="form-control" />
@@ -57,12 +68,27 @@
                     <input asp-for="rfc" type="text" class="form-control" />
                     <span asp-validation-for="rfc" class="text-danger"></span>
                 </div>
+                <div class="mb-12">
+                    <div class="mb-6">
+                        <label class="form-label">Documento</label>
+                        <input asp-for="rutaDocumento" type="text" class="form-control" />
+                    </div>             
+                </div>
 
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
-            <a asp-action="Listar" asp-controller="Mantenedor" class="btn btn-warning">Volver a la lista</a>
+            <a asp-action="Listar" asp-controller="Mantenedor" class="btn btn-warning">Volver a la lista</a>            
         </form>
-
-    </div>
+        <div>
+            </br>
+        </div>
+        <form asp-action="Aceptar" asp-controller="Mantenedor" method="post">
+            <input asp-for="IdProspecto" type="hidden" class="form-control" />
+            <button type="submit" class="btn btn-success">Aceptar</button>
+         </form>
+        <form asp-action="Rechazar" asp-controller="Mantenedor" method="post">
+            <input asp-for="IdProspecto" type="hidden" class="form-control" />
+            <button type="submit" class="btn btn-danger">Rechazar</button>
+        </form>
+    </div>    
 </div>
-

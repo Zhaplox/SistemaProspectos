@@ -34,8 +34,9 @@ namespace CrudProspectos.Datos
                                 colonia = dr["colonia"].ToString(),
                                 codigoPostal = Convert.ToInt32(dr["codigoPostal"]),
                                 telefono = dr["telefono"].ToString(),
-                                rfc = dr["rfc"].ToString()
-
+                                rfc = dr["rfc"].ToString(),
+                                estatus = int.Parse(dr["estatus"].ToString()),
+                                estatusTxt = dr["estatusTxt"].ToString()
                             });
                         }
                     }
@@ -69,6 +70,7 @@ namespace CrudProspectos.Datos
                         oProspecto.codigoPostal = Convert.ToInt32(dr["codigoPostal"]);
                         oProspecto.telefono = dr["telefono"].ToString();
                         oProspecto.rfc = dr["rfc"].ToString();
+                        oProspecto.rutaDocumento = dr["rutaDocumento"].ToString();
                     }
                 }
             }
@@ -89,7 +91,7 @@ namespace CrudProspectos.Datos
                     SqlCommand cmd = new SqlCommand("sp_Guardar", conexion);
                     cmd.Parameters.AddWithValue("nombredelProspecto", oprospecto.nombredelProspecto);
                     cmd.Parameters.AddWithValue("primerApellido", oprospecto.primerApellido);
-                    cmd.Parameters.AddWithValue("segundoApellido", oprospecto.segundoApellido);
+                    cmd.Parameters.AddWithValue("segundoApellido", string.IsNullOrEmpty(oprospecto.segundoApellido) ? "" : oprospecto.segundoApellido);
                     cmd.Parameters.AddWithValue("calle", oprospecto.calle);
                     cmd.Parameters.AddWithValue("numero", oprospecto.numero);
                     cmd.Parameters.AddWithValue("colonia", oprospecto.colonia);
@@ -171,10 +173,36 @@ namespace CrudProspectos.Datos
             return rpta;
         }
 
-        internal object Guardar(ProspectosDatos oProspectos)
+        internal void Subir_Archivo(int idProspecto, string nombreArchivo)
         {
-            throw new NotImplementedException();
+            var cn = new Conexion();
+
+            using (var conexion = new SqlConnection(cn.getCadenaSql()))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_guardar_documento", conexion);
+                cmd.Parameters.AddWithValue("idProspecto", idProspecto);
+                cmd.Parameters.AddWithValue("rutaDocumento", nombreArchivo);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
         }
+
+        internal void aceptarRechazarSolicitud(int idProspecto, int estatus)
+        {
+            var cn = new Conexion();
+
+            using (var conexion = new SqlConnection(cn.getCadenaSql()))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_aceptarRechazarSolicitud", conexion);
+                cmd.Parameters.AddWithValue("IdProspecto", idProspecto);
+                cmd.Parameters.AddWithValue("estatus", estatus);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }
 

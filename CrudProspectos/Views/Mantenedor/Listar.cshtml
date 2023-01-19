@@ -24,6 +24,7 @@
                 <th>Codigo Postal</th>
                 <th>Telefono</th>
                 <th>RFC</th>
+                <th>Estatus</th>
                 <th></th>
                 </tr>
             </thead>
@@ -41,9 +42,10 @@
                         <td>@item.codigoPostal</td>
                         <td>@item.telefono</td>
                         <td>@item.rfc</td>
+                        <td>@item.estatusTxt</td>
                         <td>
-                            <a asp-action="Editar" asp-controller="Mantenedor" class="btn btn-primary btn-sm" asp-route-IdProspecto=@item.IdProspecto>Editar</a>
-                            <a asp-action="Eliminar" asp-controller="Mantenedor" class="btn btn-danger btn-sm" asp-route-IdProspecto=@item.IdProspecto>Eliminar</a>
+                            <a asp-action="Editar" asp-controller="Mantenedor" class="btn btn-primary btn-sm" asp-route-IdProspecto=@item.IdProspecto>Ver</a>
+                            <a asp-action="Eliminar" asp-controller="Mantenedor" class="btn btn-danger btn-sm" asp-route-IdProspecto=@item.IdProspecto>Eliminar</a>                            
                         </td>
                     </tr>
                     }

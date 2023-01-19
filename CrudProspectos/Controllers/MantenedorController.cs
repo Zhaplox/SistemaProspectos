@@ -2,7 +2,7 @@
 
 using CrudProspectos.Datos;
 using CrudProspectos.Models;
-
+using System.Net.Http.Headers;
 
 namespace CrudProspectos.Controllers
 {
@@ -79,7 +79,32 @@ namespace CrudProspectos.Controllers
                 return View();
         }
 
+        [HttpPost]
+        public IActionResult Subir_Archivo(string idProspecto, IFormFile documento)
+        {
+            if (documento == null)
+            {
+                var oprospecto = _ProspectosDatos.Obtener(int.Parse(idProspecto));
+                return RedirectToAction("Editar", oprospecto); 
+            }
+                
+            
+            _ProspectosDatos.Subir_Archivo(int.Parse(idProspecto), documento.FileName);
+            return RedirectToAction("Listar");
+            
+        }
 
+         public IActionResult Aceptar(string IdProspecto)
+        {
+            _ProspectosDatos.aceptarRechazarSolicitud(int.Parse(IdProspecto), 3);
+            return RedirectToAction("Listar");
+        }
+
+        public IActionResult Rechazar(string IdProspecto)
+        {
+            _ProspectosDatos.aceptarRechazarSolicitud(int.Parse(IdProspecto), 4);
+            return RedirectToAction("Listar");
+        }
 
     }
 }

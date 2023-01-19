@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Subir Documento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+
+<form asp-action="Subir_Archivo" asp-controller="Home" method="post" enctype="multipart/form-data">
+
+
+    <label>Nombre Documento:</label>
+    <input name="NombreDocumento" type="text" />
+
+
+    <br />
+    <label>Ruta:</label>
+    <input name="ruta" type="file" />
+
+
+    <br />
+    <button class="btn btn-success" type="submit">Enviar</button>
+</form>

@@ -33,5 +33,9 @@ namespace CrudProspectos.Models
 
         [Required(ErrorMessage = "El campo RFC es obligatorio")]
         public string rfc { get; set; }
+
+        public int estatus { get; set; }
+        public string estatusTxt { get; set; }
+        public string rutaDocumento { get; set; }
     }
 }

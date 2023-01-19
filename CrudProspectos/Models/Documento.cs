@@ -1,10 +1,15 @@
-﻿namespace CrudProspectos.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+
+
+namespace CrudProspectos.Models
+
 {
     public class Documento
     {
         public int IdDocumento { get; set; }
 
-        public string Descripcion { get; set; }
+        public string NombreDocumento { get; set; }
 
         public string Ruta { get; set; }    
 

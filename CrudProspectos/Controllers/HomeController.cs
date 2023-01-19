@@ -1,6 +1,7 @@
 ﻿using CrudProspectos.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 
 namespace CrudProspectos.Controllers
 {
@@ -18,10 +19,31 @@ namespace CrudProspectos.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+
+        [HttpPost]
+        public async Task<IActionResult> Subir_Archivo(string descripcion, IFormFile documento)
         {
-            return View();
+            var client = new HttpClient();
+            using (var multipartFormContent = new MultipartFormDataContent())
+            {
+
+               
+                multipartFormContent.Add(new StringContent(descripcion), name: "Descripcion");
+
+                
+                var fileStreamContent = new StreamContent(documento.OpenReadStream());
+                fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue(documento.ContentType);
+                multipartFormContent.Add(fileStreamContent, name: "Archivo", fileName: documento.FileName);
+
+                
+                var response = await client.PostAsync("http://localhost:5289/Mantenedor/Documentos?IdProspecto=3", multipartFormContent);
+                var test = await response.Content.ReadAsStringAsync();
+            }
+
+            return View("Index");
         }
+
+        public IActionResult Privacy => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -29,4 +51,7 @@ namespace CrudProspectos.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }
+
+
