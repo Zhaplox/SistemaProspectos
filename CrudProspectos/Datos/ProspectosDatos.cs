@@ -70,7 +70,7 @@ namespace CrudProspectos.Datos
                         oProspecto.codigoPostal = Convert.ToInt32(dr["codigoPostal"]);
                         oProspecto.telefono = dr["telefono"].ToString();
                         oProspecto.rfc = dr["rfc"].ToString();
-                        oProspecto.rutaDocumento = dr["rutaDocumento"].ToString();
+                        oProspecto.archivoBase64 = dr["archivoBase64"].ToString();
                     }
                 }
             }
@@ -182,7 +182,7 @@ namespace CrudProspectos.Datos
                 conexion.Open();
                 SqlCommand cmd = new SqlCommand("sp_guardar_documento", conexion);
                 cmd.Parameters.AddWithValue("idProspecto", idProspecto);
-                cmd.Parameters.AddWithValue("rutaDocumento", nombreArchivo);
+                cmd.Parameters.AddWithValue("archivoBase64", nombreArchivo);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }

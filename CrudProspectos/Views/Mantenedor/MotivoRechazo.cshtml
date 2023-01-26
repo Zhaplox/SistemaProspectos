@@ -1,0 +1,32 @@
+﻿@model ProspectosModel
+@{
+    ViewData["Title"] = "MotivoRechazo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Motivo Rechazo
+    </div>
+    <div class="card-body">
+
+        <form asp-action="guardaMotivoRechazo" asp-controller="Mantenedor" method="post">
+
+            <input asp-for="IdProspecto" type="hidden" class="form-control"/>
+
+            <div>
+            <textarea style="width:80%" rows="5">
+                
+            </textarea>
+            </div>
+            <br />
+
+            <div>
+                <button type="submit" class="btn btn-danger">guardar</button>
+            </div>
+            <a asp-action="Listar" asp-controller="Mantenedor" class="btn btn-warning">Volver a la lista</a>
+        </form>
+
+    </div>
+</div>
+

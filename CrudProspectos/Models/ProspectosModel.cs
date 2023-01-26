@@ -36,6 +36,8 @@ namespace CrudProspectos.Models
 
         public int estatus { get; set; }
         public string estatusTxt { get; set; }
-        public string rutaDocumento { get; set; }
+        public string archivoBase64 { get; set; }
+        public string motivoRechazo{ get; set; }
+
     }
 }

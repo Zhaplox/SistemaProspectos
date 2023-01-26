@@ -13,8 +13,8 @@
             <form asp-action="Subir_Archivo" asp-controller="Mantenedor" method="post" enctype="multipart/form-data">
                 
                 <input asp-for="IdProspecto" type="hidden" class="form-control" />
-                <label>documento:</label>
-                <input name="documento" type="file" />
+                <label>Solo subir archivos PDF:</label>
+                <input name="documento" type="file" accept="application/pdf" />
                 <button class="btn btn-success" type="submit">Enviar</button>
             </form>
         </div>
@@ -68,12 +68,12 @@
                     <input asp-for="rfc" type="text" class="form-control" />
                     <span asp-validation-for="rfc" class="text-danger"></span>
                 </div>
-                <div class="mb-12">
+               @* <div class="mb-12">
                     <div class="mb-6">
                         <label class="form-label">Documento</label>
-                        <input asp-for="rutaDocumento" type="text" class="form-control" />
+                        <input asp-for="archivoBase64" type="text" class="form-control" />
                     </div>             
-                </div>
+                </div>*@
 
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -86,9 +86,47 @@
             <input asp-for="IdProspecto" type="hidden" class="form-control" />
             <button type="submit" class="btn btn-success">Aceptar</button>
          </form>
-        <form asp-action="Rechazar" asp-controller="Mantenedor" method="post">
+        @*<form asp-action="Rechazar" asp-controller="Mantenedor" method="post">
+            
             <input asp-for="IdProspecto" type="hidden" class="form-control" />
             <button type="submit" class="btn btn-danger">Rechazar</button>
-        </form>
-    </div>    
+            
+        </form>        *@
+        <a asp-action="MotivoRechazo" asp-controller="Mantenedor" class="btn btn-danger btn-sm" asp-route-IdProspecto=@Model.IdProspecto>Rechazar</a>
+        <div>
+            <button class="btn btn-info" onclick="descargarArchivo()">descargar archivo</button>
+        </div>
+    </div>     
 </div>
+<script>
+    function descargarArchivo() {
+        
+        console.log("IdProspecto", $("#IdProspecto").val())
+
+        $.ajax({
+            url: "../../Mantenedor/descargarArchivo",
+            type: "POST",
+            data: {
+                IdProspecto: $("#IdProspecto").val()
+            },
+            dataType: "json",           
+            complete: function (d) {
+                //console.log("d", d);
+                //debugger;
+                //var pdfAsDataUri = "data: application/pdf," + encodeURI(d.responseText);
+                //window.open(pdfAsDataUri);
+                var byteCharacters = atob(d.responseText);
+                var byteNumbers = new Array(byteCharacters.length);
+                for (var i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                var file = new Blob([byteArray], { type: 'application/pdf;base64' });
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL);
+            }
+        });
+          
+        
+    }
+</script>

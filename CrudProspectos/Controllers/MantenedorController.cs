@@ -49,6 +49,8 @@ namespace CrudProspectos.Controllers
         [HttpPost]
         public IActionResult Editar(ProspectosModel oProspectos)
         {
+
+            //Metodo modifica el prospecto en la BD
             if (!ModelState.IsValid)
                 return View();
 
@@ -79,6 +81,20 @@ namespace CrudProspectos.Controllers
                 return View();
         }
 
+        public IActionResult MotivoRechazo(int IdProspecto)
+        {
+            //Metodo solo devuelve la vista
+            var oprospecto = _ProspectosDatos.Obtener(IdProspecto);
+            return View(oprospecto);
+        }
+
+        [HttpPost]
+        public IActionResult MotivoRechazo(ProspectosModel oProspectos)
+        {
+            //Metodo que guardeen base de datos el motivo
+            
+        }
+
         [HttpPost]
         public IActionResult Subir_Archivo(string idProspecto, IFormFile documento)
         {
@@ -87,9 +103,32 @@ namespace CrudProspectos.Controllers
                 var oprospecto = _ProspectosDatos.Obtener(int.Parse(idProspecto));
                 return RedirectToAction("Editar", oprospecto); 
             }
-                
-            
-            _ProspectosDatos.Subir_Archivo(int.Parse(idProspecto), documento.FileName);
+
+            //string ruta = Path.Combine("C:\\ArchivosProspectos");
+            //string filePath = Path.Combine(ruta, documento.FileName);
+            string documentoBase64 = "";
+            if (documento.Length > 0)
+            {
+
+                if(documento.ContentType != "application/pdf")
+                {
+                    var oprospecto = _ProspectosDatos.Obtener(int.Parse(idProspecto));
+                    return RedirectToAction("Listar");
+                }
+                //using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    documento.CopyToAsync(fileStream);
+                //}
+                using (var ms = new MemoryStream())
+                {
+                    documento.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    documentoBase64 = Convert.ToBase64String(fileBytes);
+                    // act on the Base64 data
+                }
+            }
+
+            _ProspectosDatos.Subir_Archivo(int.Parse(idProspecto), documentoBase64);
             return RedirectToAction("Listar");
             
         }
@@ -106,5 +145,10 @@ namespace CrudProspectos.Controllers
             return RedirectToAction("Listar");
         }
 
+        public string descargarArchivo(int IdProspecto)
+        {
+            var oprospecto = _ProspectosDatos.Obtener(IdProspecto);
+            return oprospecto.archivoBase64;            
+        }
     }
 }
