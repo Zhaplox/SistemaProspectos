@@ -10,12 +10,12 @@
     </div>
     <div class="card-body">
 
-        <form asp-action="guardaMotivoRechazo" asp-controller="Mantenedor" method="post">
+        <form asp-action="MotivoRechazo" asp-controller="Mantenedor" method="post">
 
             <input asp-for="IdProspecto" type="hidden" class="form-control"/>
 
             <div>
-            <textarea style="width:80%" rows="5">
+            <textarea asp-for="motivoRechazo" style="width:80%" rows="5">
                 
             </textarea>
             </div>

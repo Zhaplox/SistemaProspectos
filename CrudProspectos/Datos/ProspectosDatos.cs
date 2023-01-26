@@ -71,6 +71,8 @@ namespace CrudProspectos.Datos
                         oProspecto.telefono = dr["telefono"].ToString();
                         oProspecto.rfc = dr["rfc"].ToString();
                         oProspecto.archivoBase64 = dr["archivoBase64"].ToString();
+                        oProspecto.motivoRechazo = dr["motivoRechazo"].ToString();
+                        oProspecto.estatus = int.Parse(dr["estatus"].ToString());
                     }
                 }
             }
@@ -203,6 +205,36 @@ namespace CrudProspectos.Datos
             }
         }
 
+
+        public bool MotivoRechazo(ProspectosModel oprospecto)
+        {
+            bool rpta;
+
+            try
+            {
+
+                var cn = new Conexion();
+
+                using (var conexion = new SqlConnection(cn.getCadenaSql()))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("sp_guardarMotivorechazo", conexion);
+                    cmd.Parameters.AddWithValue("IdProspecto", oprospecto.IdProspecto);
+                    cmd.Parameters.AddWithValue("motivoRechazo", string.IsNullOrEmpty(oprospecto.motivoRechazo) ? "" : oprospecto.motivoRechazo);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+                rpta = true;
+
+            }
+            catch (Exception e)
+            {
+                string error = e.Message;
+                rpta = false;
+            }
+
+            return rpta;
+        }
     }
 }
 

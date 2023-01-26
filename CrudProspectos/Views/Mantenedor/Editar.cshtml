@@ -68,12 +68,10 @@
                     <input asp-for="rfc" type="text" class="form-control" />
                     <span asp-validation-for="rfc" class="text-danger"></span>
                 </div>
-               @* <div class="mb-12">
-                    <div class="mb-6">
-                        <label class="form-label">Documento</label>
-                        <input asp-for="archivoBase64" type="text" class="form-control" />
-                    </div>             
-                </div>*@
+                <div class="mb-3">
+                    <label class="form-label">Motivo Rechazo</label>
+                    <input asp-for="motivoRechazo" type="text" class="form-control" disabled/>                    
+                </div>
 
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -82,17 +80,17 @@
         <div>
             </br>
         </div>
-        <form asp-action="Aceptar" asp-controller="Mantenedor" method="post">
-            <input asp-for="IdProspecto" type="hidden" class="form-control" />
-            <button type="submit" class="btn btn-success">Aceptar</button>
-         </form>
-        @*<form asp-action="Rechazar" asp-controller="Mantenedor" method="post">
-            
-            <input asp-for="IdProspecto" type="hidden" class="form-control" />
-            <button type="submit" class="btn btn-danger">Rechazar</button>
-            
-        </form>        *@
-        <a asp-action="MotivoRechazo" asp-controller="Mantenedor" class="btn btn-danger btn-sm" asp-route-IdProspecto=@Model.IdProspecto>Rechazar</a>
+
+        @if (Model.estatus == 2){
+            <div>
+                <form asp-action="Aceptar" asp-controller="Mantenedor" method="post">
+                    <input asp-for="IdProspecto" type="hidden" class="form-control" />
+                    <button type="submit" class="btn btn-success">Aceptar</button>
+                </form>
+                <a asp-action="MotivoRechazo" asp-controller="Mantenedor" class="btn btn-danger btn-sm" asp-route-IdProspecto=@Model.IdProspecto>Rechazar</a>
+            </div>
+        }
+
         <div>
             <button class="btn btn-info" onclick="descargarArchivo()">descargar archivo</button>
         </div>
@@ -111,10 +109,6 @@
             },
             dataType: "json",           
             complete: function (d) {
-                //console.log("d", d);
-                //debugger;
-                //var pdfAsDataUri = "data: application/pdf," + encodeURI(d.responseText);
-                //window.open(pdfAsDataUri);
                 var byteCharacters = atob(d.responseText);
                 var byteNumbers = new Array(byteCharacters.length);
                 for (var i = 0; i < byteCharacters.length; i++) {
